@@ -77,6 +77,17 @@ function addContact() {
 
 
 
+
+var editButtons = document.getElementsByClassName("editButton");
+for(var i = 0; i < editButtons.length; i++){
+    editButtons[i].addEventListener("click", function(){
+        editContact(this);
+    });
+}
+
+
+
+
 window.onload = function () {
     var potential = JSON.parse(localStorage.getItem("potential")) || [];
     var table = document.getElementById("contact-table");
@@ -160,56 +171,176 @@ function mailSelected() {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function editContact(editButton) {
+//     // Get the parent row of the clicked button
+//     var row = editButton.parentNode.parentNode;
+
+//     // Get the values of the cells in the row
+//     var dni = row.cells[0].innerHTML;
+//     var name = row.cells[1].innerHTML;
+//     var email = row.cells[2].innerHTML;
+
+//     // Open a form with the current values pre-filled
+//     document.getElementById("edit-dni").value = dni;
+//     document.getElementById("edit-name").value = name;
+//     document.getElementById("edit-email").value = email;
+
+//     // Show the form
+//     document.getElementById("edit-form").style.display = "block";
+// }
+
+// // add a submit event listener to the form
+// document.getElementById("edit-form").addEventListener("submit", saveChanges);
+
+// function saveChanges(event) {
+//     // prevent the form from submitting
+//     event.preventDefault();
+
+//     // get the updated values from the form
+//     var dni = document.getElementById("edit-dni").value;
+//     var name = document.getElementById("edit-name").value;
+//     var email = document.getElementById("edit-email").value;
+
+//     // find the contact in the local storage by dni
+//     var potential = JSON.parse(localStorage.getItem("potential")) || [];
+//     var contactIndex = potential.findIndex(contact => contact.dni === dni);
+
+//     // update the contact information
+//     potential[contactIndex].name = name;
+//     potential[contactIndex].email = email;
+//     potential[contactIndex].dni = dni;
+
+//     // update the local storage
+//     localStorage.setItem("potential", JSON.stringify(potential));
+
+//     // update the table
+//     var row = document.getElementById("edit-form").parentNode.parentNode;
+//     row.cells[0].innerHTML = dni;
+//     row.cells[1].innerHTML = name;
+//     row.cells[2].innerHTML = email;
+
+//     // close the form
+//     document.getElementById("edit-form").style.display = "none";   
+    
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function editContact(editButton) {
-    // Get the parent row of the clicked button
     var row = editButton.parentNode.parentNode;
 
-    // Get the values of the cells in the row
-    var dni = row.cells[0].innerHTML;
-    var name = row.cells[1].innerHTML;
-    var email = row.cells[2].innerHTML;
+    for (var i = 0; i < row.cells.length-2; i++) {
+        var cell = row.cells[i];
+        var cellValue = cell.innerHTML;
 
-    // Open a form with the current values pre-filled
-    document.getElementById("edit-dni").value = dni;
-    document.getElementById("edit-name").value = name;
-    document.getElementById("edit-email").value = email;
+        var input = document.createElement("input");
+        input.type = "text";
+        input.value = cellValue;
+        cell.innerHTML = "";
+        cell.appendChild(input);
+    }
 
-    // Show the form
-    document.getElementById("edit-form").style.display = "block";
+    var saveButton = document.createElement("button");
+    saveButton.textContent = "Save";
+    saveButton.onclick = function(){
+        saveChanges(this);
+    }
+    row.cells[3].appendChild(saveButton);
+    editButton.style.display = "none";
 }
 
-// add a submit event listener to the form
-document.getElementById("edit-form").addEventListener("submit", saveChanges);
+function saveChanges(saveButton) {
+    var row = saveButton.parentNode.parentNode;
 
-function saveChanges(event) {
-    // prevent the form from submitting
-    event.preventDefault();
+    // Get the values of the cells in the row
+    var dni = row.cells[0].children[0].value;
+    var name = row.cells[1].children[0].value;
+    var email = row.cells[2].children[0].value;
 
-    // get the updated values from the form
-    var dni = document.getElementById("edit-dni").value;
-    var name = document.getElementById("edit-name").value;
-    var email = document.getElementById("edit-email").value;
-
-    // find the contact in the local storage by dni
-    var potential = JSON.parse(localStorage.getItem("potential")) || [];
-    var contactIndex = potential.findIndex(contact => contact.dni === dni);
-
-    // update the contact information
-    potential[contactIndex].name = name;
-    potential[contactIndex].email = email;
-    potential[contactIndex].dni = dni;
-
-    // update the local storage
-    localStorage.setItem("potential", JSON.stringify(potential));
-
-    // update the table
-    var row = document.getElementById("edit-form").parentNode.parentNode;
+    // Update the text content of the cells
     row.cells[0].innerHTML = dni;
     row.cells[1].innerHTML = name;
     row.cells[2].innerHTML = email;
 
-    // close the form
-    document.getElementById("edit-form").style.display = "none";
-    
-    
+    // Change the text of the save button back to "Edit"
+    saveButton.style.display = "none";
+    var editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.onclick = function(){
+        editContact(this);
+    }
+    row.cells[3].appendChild(editButton);
+
+    // Get the current data in local storage
+    var potential = JSON.parse(localStorage.getItem("potential")) || [];
+
+    // Find the index of the contact to update
+    var index = potential.findIndex(contact => contact.dni === dni);
+
+    // Update the contact in the potential array
+    potential[index] = { name: name, email: email, dni: dni };
+
+    // Save the updated data in local storage
+    localStorage.setItem("potential", JSON.stringify(potential));
 }

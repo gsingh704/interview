@@ -1,5 +1,5 @@
 function addContact() {
-    // Get the user input
+    // get the user input
     var name = document.getElementById("name").value;
     
     var email = document.getElementById("email").value;
@@ -22,28 +22,29 @@ function addContact() {
     selectbox.type = "checkbox";
     selectbox.className = "selectBox";
 
-    // Append the remove button to the remove cell
+    // add the remove button to the remove cell
     removeCell.appendChild(selectbox);
 
-    // Set the text content of the cells
+    // make the text content of the cells
     nameCell.textContent = name;
     emailCell.textContent = email;
 
-    // Append the cells to the row
+    // add the cells to the row
     newRow.appendChild(nameCell);
     newRow.appendChild(emailCell);
     newRow.appendChild(removeCell);
 
-    // Add the new row to the table
+    // add this new row to the table
     var table = document.getElementById("contact-table");
     var tbody = table.getElementsByTagName("tbody")[0];
     tbody.appendChild(newRow);
 
-    // Store the data in Local Storage
+    // store the data in local storage
     var potential = JSON.parse(localStorage.getItem("potential")) || [];
     potential.push({ name: name, email: email });
     localStorage.setItem("potential", JSON.stringify(potential));
 }
+
 window.onload = function () {
     var potential = JSON.parse(localStorage.getItem("potential")) || [];
     var table = document.getElementById("contact-table");
@@ -63,14 +64,14 @@ window.onload = function () {
         selectbox.type = "checkbox";
         selectbox.className = "selectBox";
 
-        // Append the remove checkbox to the remove cell
+        // add the remove checkbox to the remove cell
         removeCell.appendChild(selectbox);
 
-        // Set the text content of the cells
+        // Make the text content of the cells
         nameCell.textContent = potential[i].name;
         emailCell.textContent = potential[i].email;
 
-        // Append the cells to the row
+        // add the cells to the row
         newRow.appendChild(nameCell);
         newRow.appendChild(emailCell);
         newRow.appendChild(removeCell);
@@ -79,7 +80,7 @@ window.onload = function () {
         tbody.appendChild(newRow);
     }
 }
-
+// remove the selected contacts
 function removeSelected() {
     var checkboxes = document.querySelectorAll(".selectBox");
     var selectedpotential = [];
@@ -96,6 +97,7 @@ function removeSelected() {
     var updatedpotential = potential.filter(contact => !selectedpotential.some(selected => selected.name == contact.name && selected.email == contact.email));
     localStorage.setItem("potential", JSON.stringify(updatedpotential));
 }
+// mail the selected contacts
 function mailSelected() {
     var checkboxes = document.querySelectorAll(".selectBox");
     var selectedEmails = [];

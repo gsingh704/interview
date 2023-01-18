@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    Which list do you want to view and edit? <br>
+    <button type="button" onclick="window.location.href='Client.html'">Clients</button>
+    <button type="button" onclick="window.location.href='providor.html'">Providor</button>
+    <button type="button" onclick="window.location.href='Potential.html'">Potential Clients</button>
+
+    
+    
+    <br>
+    <div class="Client">
+        <h1>Client</h1>
+        <table id="contact-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Smith</td>
+                    <td>john.smith@example.com</td>
+                    <td><input type="checkbox" name="selectBox" id="selectBox"></td>
+
+
+                </tr>
+                <tr>
+                    <td>Jane Doe</td>
+                    <td>jane.doe@example.com</td>
+                    <td><input type="checkbox" name="selectBox" id="selectBox"></td>
+
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" onclick="removeSelected()">Remove Selected</button>
+        <button type="button" onclick="mailSelected()">Mail Selected</button>
+        <br>
+        <form>
+            <h3>New Client</h3>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br>
+            <label for="email">Email : </label>
+            <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required><br>
+            <button type="button" onclick="addContact()">Add Contact</button>
+
+        </form>
+    </div>
+    <script src="../js/Client.js"></script>
+</body>
+
+</html>

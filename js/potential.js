@@ -1,8 +1,6 @@
 function addContact() {
     // Get the user input
     var name = document.getElementById("name").value;
-   
-   
     
     var email = document.getElementById("email").value;
     var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -42,16 +40,16 @@ function addContact() {
     tbody.appendChild(newRow);
 
     // Store the data in Local Storage
-    var contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-    contacts.push({ name: name, email: email });
-    localStorage.setItem("contacts", JSON.stringify(contacts));
+    var potential = JSON.parse(localStorage.getItem("potential")) || [];
+    potential.push({ name: name, email: email });
+    localStorage.setItem("potential", JSON.stringify(potential));
 }
 window.onload = function () {
-    var contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+    var potential = JSON.parse(localStorage.getItem("potential")) || [];
     var table = document.getElementById("contact-table");
     var tbody = table.getElementsByTagName("tbody")[0];
 
-    for (var i = 0; i < contacts.length; i++) {
+    for (var i = 0; i < potential.length; i++) {
         // Create a new table row
         var newRow = document.createElement("tr");
 
@@ -69,8 +67,8 @@ window.onload = function () {
         removeCell.appendChild(selectbox);
 
         // Set the text content of the cells
-        nameCell.textContent = contacts[i].name;
-        emailCell.textContent = contacts[i].email;
+        nameCell.textContent = potential[i].name;
+        emailCell.textContent = potential[i].email;
 
         // Append the cells to the row
         newRow.appendChild(nameCell);
@@ -84,19 +82,19 @@ window.onload = function () {
 
 function removeSelected() {
     var checkboxes = document.querySelectorAll(".selectBox");
-    var selectedContacts = [];
+    var selectedpotential = [];
     for (var i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
-            selectedContacts.push({
+            selectedpotential.push({
                 name: checkboxes[i].parentNode.parentNode.children[0].textContent,
                 email: checkboxes[i].parentNode.parentNode.children[1].textContent
             });
             checkboxes[i].parentNode.parentNode.remove();
         }
     }
-    var contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-    var updatedContacts = contacts.filter(contact => !selectedContacts.some(selected => selected.name == contact.name && selected.email == contact.email));
-    localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+    var potential = JSON.parse(localStorage.getItem("potential")) || [];
+    var updatedpotential = potential.filter(contact => !selectedpotential.some(selected => selected.name == contact.name && selected.email == contact.email));
+    localStorage.setItem("potential", JSON.stringify(updatedpotential));
 }
 function mailSelected() {
     var checkboxes = document.querySelectorAll(".selectBox");

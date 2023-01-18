@@ -1,21 +1,37 @@
 function addContact() {
-    // get the user input
+    // Get the user input
+    //name
     var name = document.getElementById("name").value;
-    
+    //email
     var email = document.getElementById("email").value;
     var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if(!emailRegex.test(email)){
-      alert("Invalid email address");
-      return;
+    if (!emailRegex.test(email)) {
+        alert("Invalid email address");
+        return;
     }
-
+    //dni
+    var dni = document.getElementById("dni").value;
+    var dniRegex = /^[a-zA-Z]{1}\d{4}$/;
+    if (!dniRegex.test(dni)) {
+        alert("Invalid ID format. ID must have a  letter in the first position and 4 numbers in the last four positions (e.g. A1234)");
+        return;
+    }
+    var providor = JSON.parse(localStorage.getItem("providor")) || [];
+    // Check if the new contact's ID already exists in the  providor array
+    var duplicate = providor.find(contact => contact.dni === dni);
+    if (duplicate) {
+        alert("Error: Contact with ID " + dni + " already exists.");
+        return;
+    }
     // Create a new table row
     var newRow = document.createElement("tr");
 
     // Create the cells for the row
+    var dniCell = document.createElement("td");
     var nameCell = document.createElement("td");
     var emailCell = document.createElement("td");
     var removeCell = document.createElement("td");
+
 
     // Create the remove button
     var selectbox = document.createElement("input");
@@ -26,10 +42,12 @@ function addContact() {
     removeCell.appendChild(selectbox);
 
     // make the text content of the cells
+    dniCell.textContent = dni;
     nameCell.textContent = name;
     emailCell.textContent = email;
 
     // add the cells to the row
+    newRow.appendChild(dniCell);
     newRow.appendChild(nameCell);
     newRow.appendChild(emailCell);
     newRow.appendChild(removeCell);
@@ -41,7 +59,7 @@ function addContact() {
 
     // store the data in local storage
     var providor = JSON.parse(localStorage.getItem("providor")) || [];
-    providor.push({ name: name, email: email });
+    providor.push({ name: name, email: email, dni: dni });
     localStorage.setItem("providor", JSON.stringify(providor));
 }
 
@@ -55,6 +73,7 @@ window.onload = function () {
         var newRow = document.createElement("tr");
 
         // Create the cells for the row
+        var dniCell = document.createElement("td");
         var nameCell = document.createElement("td");
         var emailCell = document.createElement("td");
         var removeCell = document.createElement("td");
@@ -68,10 +87,12 @@ window.onload = function () {
         removeCell.appendChild(selectbox);
 
         // Make the text content of the cells
+        dniCell.textContent = providor[i].dni;
         nameCell.textContent = providor[i].name;
         emailCell.textContent = providor[i].email;
 
         // add the cells to the row
+        newRow.appendChild(dniCell);
         newRow.appendChild(nameCell);
         newRow.appendChild(emailCell);
         newRow.appendChild(removeCell);
@@ -87,8 +108,9 @@ function removeSelected() {
     for (var i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
             selectedprovidor.push({
-                name: checkboxes[i].parentNode.parentNode.children[0].textContent,
-                email: checkboxes[i].parentNode.parentNode.children[1].textContent
+                dni: checkboxes[i].parentNode.parentNode.children[0].textContent,
+                name: checkboxes[i].parentNode.parentNode.children[1].textContent,
+                email: checkboxes[i].parentNode.parentNode.children[2].textContent
             });
             checkboxes[i].parentNode.parentNode.remove();
         }
@@ -103,7 +125,7 @@ function mailSelected() {
     var selectedEmails = [];
     for (var i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
-            selectedEmails.push(checkboxes[i].parentNode.parentNode.children[1].textContent);
+            selectedEmails.push(checkboxes[i].parentNode.parentNode.children[2].textContent);//email index is 2
         }
     }
     if (selectedEmails.length > 0) {

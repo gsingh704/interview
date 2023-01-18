@@ -20,7 +20,7 @@ table * {
 button {
     margin: 10px;
     padding: 10px;
-    background-color: #000;
+    background-color: rgb(0, 0, 0);
     color: #fff;
     border: 2px solid #000;
     border-radius: 5px;

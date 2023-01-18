@@ -1,7 +1,15 @@
 function addContact() {
     // Get the user input
     var name = document.getElementById("name").value;
+   
+   
+    
     var email = document.getElementById("email").value;
+    var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if(!emailRegex.test(email)){
+      alert("Invalid email address");
+      return;
+    }
 
     // Create a new table row
     var newRow = document.createElement("tr");

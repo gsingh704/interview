@@ -26,7 +26,8 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Select</th>
-                    <th>edit</th>
+                    <th>Edit</th>
+                    <th>Last Modified</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,12 +42,11 @@
             <label for="dni">DNI:</label>
             <input type="text" id="dni" name="dni" placeholder="1 letter 4 numbers; A1234"><br>
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" placeholder="Joan Prat"><br>
+            <input type="text" id="name" name="name" placeholder="Joan Prat" required><br>
             <label for="email">Email : </label>
             <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="jaon@example.com" required><br>
-            <button type="button" onclick="addContact()">Add Contact</button>
-            <button type="button" onclick="reset()">Reset</button>
-
+            <button type="submit"  onclick="addContact()">Add Contact</button>
+            <button type="reset" >Reset</button>
         </form>
     </div>
     <script src="../js/providor.js"></script>

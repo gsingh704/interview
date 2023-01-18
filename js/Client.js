@@ -31,16 +31,16 @@ function addContact() {
     var dniCell = document.createElement("td");
     var nameCell = document.createElement("td");
     var emailCell = document.createElement("td");
-    var removeCell = document.createElement("td");
+    var selectCell = document.createElement("td");
     var editCell = document.createElement("td");
+    var dateCell = document.createElement("td");
 
     // Create the select button
     var selectbox = document.createElement("input");
     selectbox.type = "checkbox";
     selectbox.className = "selectBox";
-
     // add the select button to the remove cell
-    removeCell.appendChild(selectbox);
+    selectCell.appendChild(selectbox);
 
     // Create the edit button
     var editButton = document.createElement("button");
@@ -57,12 +57,17 @@ function addContact() {
     nameCell.textContent = name;
     emailCell.textContent = email;
 
+    const date = new Date();
+    const dateStr = date.toLocaleDateString();
+    dateCell.textContent = dateStr;
+
     // add the cells to the row
     newRow.appendChild(dniCell);
     newRow.appendChild(nameCell);
     newRow.appendChild(emailCell);
-    newRow.appendChild(removeCell);
+    newRow.appendChild(selectCell);
     newRow.appendChild(editCell);
+
 
     // add this new row to the table
     var table = document.getElementById("contact-table");
@@ -71,7 +76,7 @@ function addContact() {
 
     // store the data in local storage
     var clientContact = JSON.parse(localStorage.getItem("clientContact")) || [];
-    clientContact.push({ name: name, email: email, dni: dni });
+    clientContact.push({ name: name, email: email, dni: dni, date: dateStr });
     localStorage.setItem("clientContact", JSON.stringify(clientContact));
 }
 
@@ -79,8 +84,8 @@ function addContact() {
 
 
 var editButtons = document.getElementsByClassName("editButton");
-for(var i = 0; i < editButtons.length; i++){
-    editButtons[i].addEventListener("click", function(){
+for (var i = 0; i < editButtons.length; i++) {
+    editButtons[i].addEventListener("click", function () {
         editContact(this);
     });
 }
@@ -101,16 +106,17 @@ window.onload = function () {
         var dniCell = document.createElement("td");
         var nameCell = document.createElement("td");
         var emailCell = document.createElement("td");
-        var removeCell = document.createElement("td");
+        var selectCell = document.createElement("td");
         var editCell = document.createElement("td");
+        var dateCell = document.createElement("td");
 
-        // Create the remove checkbox
+        // Create the select checkbox
         var selectbox = document.createElement("input");
         selectbox.type = "checkbox";
         selectbox.className = "selectBox";
 
-        // add the remove checkbox to the remove cell
-        removeCell.appendChild(selectbox);
+        // add the select checkbox to the select cell
+        selectCell.appendChild(selectbox);
         // Create the edit button
         var editButton = document.createElement("button");
         editButton.textContent = "Edit";
@@ -121,17 +127,22 @@ window.onload = function () {
         // add the edit button to the edit cell
         editCell.appendChild(editButton);
 
+
+
         // Make the text content of the cells
         dniCell.textContent = clientContact[i].dni;
         nameCell.textContent = clientContact[i].name;
         emailCell.textContent = clientContact[i].email;
+        dateCell.textContent = clientContact[i].date;
 
         // add the cells to the row
         newRow.appendChild(dniCell);
         newRow.appendChild(nameCell);
         newRow.appendChild(emailCell);
-        newRow.appendChild(removeCell);
+        newRow.appendChild(selectCell);
         newRow.appendChild(editCell);
+        newRow.appendChild(dateCell);
+ 
 
 
         // Add the new row to the table
@@ -147,7 +158,8 @@ function removeSelected() {
             selectedclientContact.push({
                 dni: checkboxes[i].parentNode.parentNode.children[0].textContent,
                 name: checkboxes[i].parentNode.parentNode.children[1].textContent,
-                email: checkboxes[i].parentNode.parentNode.children[2].textContent
+                email: checkboxes[i].parentNode.parentNode.children[2].textContent,
+                date: checkboxes[i].parentNode.parentNode.children[5].textContent
             });
             checkboxes[i].parentNode.parentNode.remove();
         }
@@ -179,10 +191,9 @@ function mailSelected() {
 function editContact(editButton) {
     var row = editButton.parentNode.parentNode;
 
-    for (var i = 0; i < row.cells.length-2; i++) {
+    for (var i = 0; i < 3; i++) {
         var cell = row.cells[i];
         var cellValue = cell.innerHTML;
-
         var input = document.createElement("input");
         input.type = "text";
         input.value = cellValue;
@@ -192,7 +203,7 @@ function editContact(editButton) {
 
     var saveButton = document.createElement("button");
     saveButton.textContent = "Save";
-    saveButton.onclick = function(){
+    saveButton.onclick = function () {
         saveChanges(this);
     }
     row.cells[4].appendChild(saveButton);
@@ -207,16 +218,22 @@ function saveChanges(saveButton) {
     var name = row.cells[1].children[0].value;
     var email = row.cells[2].children[0].value;
 
+
     // Update the text content of the cells
     row.cells[0].innerHTML = dni;
     row.cells[1].innerHTML = name;
     row.cells[2].innerHTML = email;
+    //dave the actual date
+    var date = new Date();
+    const dateStr = date.toLocaleDateString();
+    row.cells[5].innerHTML = dateStr;
+
 
     // Change the text of the save button back to "Edit"
     saveButton.style.display = "none";
     var editButton = document.createElement("button");
     editButton.textContent = "Edit";
-    editButton.onclick = function(){
+    editButton.onclick = function () {
         editContact(this);
     }
     row.cells[4].appendChild(editButton);
@@ -228,7 +245,7 @@ function saveChanges(saveButton) {
     var index = clientContact.findIndex(contact => contact.dni === dni);
 
     // Update the contact in the clientContact array
-    clientContact[index] = { name: name, email: email, dni: dni };
+    clientContact[index] = { name: name, email: email, dni: dni, date: dateStr };
 
     // Save the updated data in local storage
     localStorage.setItem("clientContact", JSON.stringify(clientContact));

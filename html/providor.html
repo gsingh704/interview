@@ -39,12 +39,13 @@
         <form>
             <h3>New Providors</h3>
             <label for="dni">DNI:</label>
-            <input type="text" id="dni" name="dni"><br>
+            <input type="text" id="dni" name="dni" placeholder="1 letter 4 numbers; A1234"><br>
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name"><br>
+            <input type="text" id="name" name="name" placeholder="Joan Prat"><br>
             <label for="email">Email : </label>
-            <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required><br>
+            <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="jaon@example.com" required><br>
             <button type="button" onclick="addContact()">Add Contact</button>
+            <button type="button" onclick="reset()">Reset</button>
 
         </form>
     </div>

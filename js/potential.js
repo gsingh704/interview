@@ -250,3 +250,10 @@ function saveChanges(saveButton) {
     // Save the updated data in local storage
     localStorage.setItem("potential", JSON.stringify(potential));
 }
+//selectall
+function selectAll() {
+    var checkboxes = document.querySelectorAll(".selectBox");
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = true;
+    }
+}

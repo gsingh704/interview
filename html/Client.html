@@ -35,7 +35,7 @@
 
             </tbody>
         </table>
-
+        <button type="button" onclick="selectAll()">Select All</button>
         <button type="button" onclick="removeSelected()">Remove Selected</button>
         <button type="button" onclick="mailSelected()">Mail Selected</button>
 
@@ -46,9 +46,10 @@
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" placeholder="Joan Prat" required><br>
             <label for="email">Email : </label>
-            <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="jaon@example.com" required><br>
-            <button type="submit"  onclick="addContact()">Add Contact</button>
-            <button type="reset" >Reset</button>
+            <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                placeholder="jaon@example.com" required><br>
+            <button type="submit" onclick="addContact()">Add Contact</button>
+            <button type="reset">Reset</button>
         </form>
     </div>
     <script src="../js/Client.js"></script>

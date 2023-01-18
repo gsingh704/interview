@@ -26,20 +26,31 @@ function addContact() {
     // Create a new table row
     var newRow = document.createElement("tr");
 
+
     // Create the cells for the row
     var dniCell = document.createElement("td");
     var nameCell = document.createElement("td");
     var emailCell = document.createElement("td");
     var removeCell = document.createElement("td");
+    var editCell = document.createElement("td");
 
-
-    // Create the remove button
+    // Create the select button
     var selectbox = document.createElement("input");
     selectbox.type = "checkbox";
     selectbox.className = "selectBox";
 
-    // add the remove button to the remove cell
+    // add the select button to the remove cell
     removeCell.appendChild(selectbox);
+
+    // Create the edit button
+    var editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.className = "editButton";
+    // add the onclick event to the edit button
+    editButton.onclick = function () { editContact(this) };
+
+    // add the edit button to the edit cell
+    editCell.appendChild(editButton);
 
     // make the text content of the cells
     dniCell.textContent = dni;
@@ -51,6 +62,7 @@ function addContact() {
     newRow.appendChild(nameCell);
     newRow.appendChild(emailCell);
     newRow.appendChild(removeCell);
+    newRow.appendChild(editCell);
 
     // add this new row to the table
     var table = document.getElementById("contact-table");
@@ -62,6 +74,19 @@ function addContact() {
     providor.push({ name: name, email: email, dni: dni });
     localStorage.setItem("providor", JSON.stringify(providor));
 }
+
+
+
+
+var editButtons = document.getElementsByClassName("editButton");
+for(var i = 0; i < editButtons.length; i++){
+    editButtons[i].addEventListener("click", function(){
+        editContact(this);
+    });
+}
+
+
+
 
 window.onload = function () {
     var providor = JSON.parse(localStorage.getItem("providor")) || [];
@@ -77,6 +102,7 @@ window.onload = function () {
         var nameCell = document.createElement("td");
         var emailCell = document.createElement("td");
         var removeCell = document.createElement("td");
+        var editCell = document.createElement("td");
 
         // Create the remove checkbox
         var selectbox = document.createElement("input");
@@ -85,6 +111,15 @@ window.onload = function () {
 
         // add the remove checkbox to the remove cell
         removeCell.appendChild(selectbox);
+        // Create the edit button
+        var editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.className = "editButton";
+        // add the onclick event to the edit button
+        editButton.onclick = function () { editContact(this) };
+
+        // add the edit button to the edit cell
+        editCell.appendChild(editButton);
 
         // Make the text content of the cells
         dniCell.textContent = providor[i].dni;
@@ -96,6 +131,8 @@ window.onload = function () {
         newRow.appendChild(nameCell);
         newRow.appendChild(emailCell);
         newRow.appendChild(removeCell);
+        newRow.appendChild(editCell);
+
 
         // Add the new row to the table
         tbody.appendChild(newRow);
@@ -132,4 +169,67 @@ function mailSelected() {
         var emailLink = "mailto:" + selectedEmails.join(";") + "?subject=Email from my website&body=Hello,%0D%0A%0D%0A";
         window.location.href = emailLink;
     }
+}
+
+
+
+
+
+
+function editContact(editButton) {
+    var row = editButton.parentNode.parentNode;
+
+    for (var i = 0; i < row.cells.length-2; i++) {
+        var cell = row.cells[i];
+        var cellValue = cell.innerHTML;
+
+        var input = document.createElement("input");
+        input.type = "text";
+        input.value = cellValue;
+        cell.innerHTML = "";
+        cell.appendChild(input);
+    }
+
+    var saveButton = document.createElement("button");
+    saveButton.textContent = "Save";
+    saveButton.onclick = function(){
+        saveChanges(this);
+    }
+    row.cells[4].appendChild(saveButton);
+    editButton.style.display = "none";
+}
+
+function saveChanges(saveButton) {
+    var row = saveButton.parentNode.parentNode;
+
+    // Get the values of the cells in the row
+    var dni = row.cells[0].children[0].value;
+    var name = row.cells[1].children[0].value;
+    var email = row.cells[2].children[0].value;
+
+    // Update the text content of the cells
+    row.cells[0].innerHTML = dni;
+    row.cells[1].innerHTML = name;
+    row.cells[2].innerHTML = email;
+
+    // Change the text of the save button back to "Edit"
+    saveButton.style.display = "none";
+    var editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.onclick = function(){
+        editContact(this);
+    }
+    row.cells[4].appendChild(editButton);
+
+    // Get the current data in local storage
+    var providor = JSON.parse(localStorage.getItem("providor")) || [];
+
+    // Find the index of the contact to update
+    var index = providor.findIndex(contact => contact.dni === dni);
+
+    // Update the contact in the providor array
+    providor[index] = { name: name, email: email, dni: dni };
+
+    // Save the updated data in local storage
+    localStorage.setItem("providor", JSON.stringify(providor));
 }

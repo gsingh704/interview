@@ -10,15 +10,15 @@
 </head>
 
 <body>
-    Which list do you want to view and edit? <br>
-    <button type="button" onclick="window.location.href='Client.html'">Clients</button>
-    <button type="button" onclick="window.location.href='providor.html'">Providor</button>
-    <button type="button" onclick="window.location.href='Potential.html'">Potential Clients</button>
 
-    
-    
-    <br>
+
     <div class="main">
+        <div>
+            Which list do you want to view and edit? <br>
+            <button type="button" onclick="window.location.href='Client.html'">Clients</button>
+            <button type="button" onclick="window.location.href='providor.html'">Providor</button>
+            <button type="button" onclick="window.location.href='Potential.html'">Potential Clients</button>
+        </div>
         <h1>Client</h1>
         <table id="contact-table">
             <thead>
@@ -30,12 +30,13 @@
                 </tr>
             </thead>
             <tbody>
-               
+
             </tbody>
         </table>
+
         <button type="button" onclick="removeSelected()">Remove Selected</button>
         <button type="button" onclick="mailSelected()">Mail Selected</button>
-        <br>
+
         <form>
             <h3>New Client</h3>
             <label for="dni">DNI:</label>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="data-holder"></div>
+
+    <button onclick="storeData()">Store Data</button>
+    <button onclick="showData()">Show Data</button>
+
+    <script>
+        var dataArray = [];
+
+        function storeData() {
+            // Prompt the user for their name, email, and phone number
+            var name = prompt("What is your name?");
+            var email = prompt("What is your email?");
+            var phone = prompt("What is your phone number?");
+
+            // Create an object to store the data
+            dataArray.push({ name: name, email: email, phone: phone });
+
+            // Convert the object to a string and store it in LocalStorage
+            localStorage.setItem("dataArray", JSON.stringify(dataArray));
+        }
+
+        function showData() {
+            var dataArray = JSON.parse(localStorage.getItem("dataArray"));
+
+            var dataHtml = '';
+            if (dataArray.length > 0) {
+                for (var i = 0; i < dataArray.length; i++) {
+                    dataHtml += "<p> Name: " + dataArray[i].name + " Email: " + dataArray[i].email + " Phone: " + dataArray[i].phone + "</p>";
+                }
+            }
+            else {
+                dataHtml = "<p> There is no data stored </p>"
+            }
+            // Select the div element by its id
+            var dataHolder = document.getElementById("data-holder");
+
+            // Update the div element's innerHTML with the dataHtml string
+            dataHolder.innerHTML = dataHtml;
+        }
+
+
+    </script>
+</body>
+
+</html>

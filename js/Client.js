@@ -257,3 +257,50 @@ function selectAll() {
         checkboxes[i].checked = true;
     }
 }
+
+
+
+
+
+
+//export function
+function exportData() {
+    // get the data from local storage
+    var clientContact = JSON.parse(localStorage.getItem("clientContact")) || [];
+
+    // convert the data to a JSON string
+    var jsonData = JSON.stringify(clientContact);
+
+    // create a Blob object with the JSON data
+    var jsonBlob = new Blob([jsonData], {type: "application/json"});
+
+    // create a link element to trigger the download
+    var downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(jsonBlob);
+    downloadLink.download = "clientContact.json";
+
+    // add the link to the DOM and click it
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+}
+
+//import function
+function importData() {
+    //create input element
+    var input = document.createElement("input");
+    input.type = "file";
+    document.body.appendChild(input);
+    input.style.display = "none";
+
+    input.addEventListener("change", function(){
+        var file = input.files[0];
+        var reader = new FileReader();
+        reader.onload = function(){
+            var jsonData = JSON.parse(reader.result);
+            localStorage.setItem("clientContact", JSON.stringify(jsonData));
+            location.reload();
+        };
+        reader.readAsText(file);
+    });
+    input.click();
+}

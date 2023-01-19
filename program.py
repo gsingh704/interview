@@ -74,7 +74,7 @@ def send_emails(table, subject):
     c.execute(f"SELECT email FROM {table}")
     emails = c.fetchall()
 
-    # Construct the URL for the Gmail compose window
+    # write the email body cann be added but not yet
     to = ",".join([email[0] for email in emails])
     url = f"https://mail.google.com/mail/?view=cm&fs=1&to={to}&su={subject}&body="
     webbrowser.open(url)

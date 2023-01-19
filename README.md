@@ -5,7 +5,8 @@ Aquest programa permet gestionar llista:
 - proveïdors.
 
 
-El programa permet afegir contactes nous i eliminar els contactes seleccionats. També permet seleccionar els usuaris i enviar-los un correu electrònic amb una aplicació de correu electrònic
+El programa permet afegir contactes nous i eliminar els contactes seleccionats. També permet seleccionar els usuaris i enviar-los un correu electrònic amb una aplicació de correu electrònic.
+També permet exportar i importar la llista en format de json. 
 
 # Podeu veura el lloc web aqui
 

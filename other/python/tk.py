@@ -8,7 +8,7 @@ import webbrowser
 import re
 
 # List of tables
-tables = ["Client", "Providers", "Potential Clients"]
+tables = ["Client", "Providers", "Potential"]
 
 # Create the database and update the tables list
 
@@ -74,7 +74,7 @@ def send_emails(table, subject):
     c.execute(f"SELECT email FROM {table}")
     emails = c.fetchall()
 
-    # write the email body cann be added but not yet
+    # Construct the URL for the Gmail compose window
     to = ",".join([email[0] for email in emails])
     url = f"https://mail.google.com/mail/?view=cm&fs=1&to={to}&su={subject}&body="
     webbrowser.open(url)
@@ -140,12 +140,12 @@ root.mainloop()
 
 #     server = smtplib.SMTP('smtp.gmail.com', 587)
 #     server.starttls()
-#     server.login("emai@gmail.com", "Password")
+#     server.login("YourEmailAddress@gmail.com", "YourEmailPassword")
 
 #     for email in emails:
 #         email = email[0]
 #         message = f"Subject: {subject}\n\n{body}"
-#         server.sendmail("emai@gmail.com", email, message)
+#         server.sendmail("YourEmailAddress@gmail.com", email, message)
 
 #     messagebox.showinfo("Success", "Emails sent to all addresses in the table.")
 #     server.quit()

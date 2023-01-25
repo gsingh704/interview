@@ -265,21 +265,17 @@ function selectAll() {
 
 //export function
 function exportData() {
-    // get the data from local storage
+   
     var clientContact = JSON.parse(localStorage.getItem("clientContact")) || [];
 
-    // convert the data to a JSON string
     var jsonData = JSON.stringify(clientContact);
 
-    // create a Blob object with the JSON data
     var jsonBlob = new Blob([jsonData], {type: "application/json"});
 
-    // create a link element to trigger the download
     var downloadLink = document.createElement("a");
     downloadLink.href = URL.createObjectURL(jsonBlob);
     downloadLink.download = "clientContact.json";
 
-    // add the link to the DOM and click it
     document.body.appendChild(downloadLink);
     downloadLink.click();
 }

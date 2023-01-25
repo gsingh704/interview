@@ -272,10 +272,10 @@ function exportData() {
     // convert the data to a JSON string
     var jsonData = JSON.stringify(potential);
 
-    // create a Blob object with the JSON data
+    // create a file with the JSON data
     var jsonBlob = new Blob([jsonData], {type: "application/json"});
 
-    // create a link element to trigger the download
+    // create a link to  download
     var downloadLink = document.createElement("a");
     downloadLink.href = URL.createObjectURL(jsonBlob);
     downloadLink.download = "potential.json";
